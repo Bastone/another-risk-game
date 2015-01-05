@@ -21,8 +21,9 @@ public class Button {
 	
 	public void draw(SpriteBatch batch) {
 		sprite.draw(batch);
-		if (font != null)
-			font.draw(batch, "Bottone", sprite.getX() + textBorder, sprite.getY() + textBorder);	
+		if (font != null) {
+			font.draw(batch, "Bottone", sprite.getX() + textBorder, sprite.getY() + textBorder + font.getCapHeight());
+		}
 	}
 
 	public boolean isTouchDown(float x, float y) {

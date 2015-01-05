@@ -3,18 +3,18 @@ package com.randomj.helpers;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.randomj.gameobjects.Country;
-import com.randomj.screens.GameScreen;
+import com.randomj.gameobjects.GameUpdater;
 
 public class MapInputHandler extends GestureHandler implements InputProcessor{
 
-	private GameScreen game;
 	private boolean holdMouse;
 	private int startX, startY;
-	
-	public MapInputHandler(GameScreen game) {
-		this.game = game;
+	private CameraHandler camHandler;
+	private GameUpdater updater;
+
+	public MapInputHandler(CameraHandler camHandler, GameUpdater updater) {
+		this.camHandler = camHandler;
+		this.updater = updater;
 		holdMouse = false;
 	}
 
@@ -22,11 +22,13 @@ public class MapInputHandler extends GestureHandler implements InputProcessor{
 	public boolean keyDown(int keycode) {
 
 		if (keycode == Keys.Z) {
-			game.zoomCamera();
+			camHandler.zoomCamera();
+			return true;
 		}
 		
 		if (keycode == Keys.X) {
-			game.unZoomCamera();
+			camHandler.unZoomCamera();
+			return true;
 		}
 		return false;
 	}
@@ -48,9 +50,10 @@ public class MapInputHandler extends GestureHandler implements InputProcessor{
 		
 		if (!holdMouse) {
 			holdMouse = true;
-			game.pickCountry(screenX, screenY);
+			updater.pickCountry(camHandler.pick(screenX, screenY));
 			startX = screenX;
 			startY = screenY;
+			return true;
 		}	
 		return false;
 	}
@@ -66,9 +69,10 @@ public class MapInputHandler extends GestureHandler implements InputProcessor{
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
 		if (holdMouse) {
-			game.translateCamera(startX - screenX, screenY - startY);
+			camHandler.translateCamera(startX - screenX, screenY - startY);
 			startX = screenX;
 			startY = screenY;
+			return true;
 		}		
 		return false;
 	}
@@ -112,7 +116,7 @@ public class MapInputHandler extends GestureHandler implements InputProcessor{
 	@Override
 	public boolean pan(float x, float y, float deltaX, float deltaY) {
 		
-		game.translateCamera(deltaX,deltaY);	
+		camHandler.translateCamera(deltaX,deltaY);	
 		return false;
 	}
 

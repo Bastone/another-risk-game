@@ -4,8 +4,10 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.randomj.helpers.AssetLoader;
 
 public class Map {
@@ -24,16 +26,16 @@ public class Map {
 		mapSprite = new Sprite(mapTexture);
 		mapColors = AssetLoader.mapColors;
 		
-		initMap();
+		init();
 	}
 	
-	public void initMap() {
+	public void init() {
 
 		countries = new ArrayList<Country>();
 		continents = new ArrayList<Continent>();
 		
 		//NORTH AMERICA
-		countries.add(new Country("Alaska", 0x808014ff, countries.size()));
+		countries.add(new Country("Alaska", 78, 555, 0x808014ff, countries.size()));
 		countries.add(new Country("Alberta", 0xffff00ff, countries.size()));
 		countries.add(new Country("Central America",0xffff64ff, countries.size()));
 		countries.add(new Country("Eastern United States", 0x808000ff, countries.size()));
@@ -120,17 +122,18 @@ public class Map {
 		continents.add(new Continent("Australia", 2, pattern));
 		
 	}
+	
+	public void reset() {
+		for (Country country: countries)
+			country.reset();		
+	}
 
 	public Country pickCountry(float x, float y) {		
 		
-		int color = mapColors.getPixel((int)x, (int)y);	
-//		Color rgb = new Color(color);
-		
+		int color = mapColors.getPixel((int)x, (int)y);		
 		if (color != 0xffffffff) {
-//			Gdx.app.log("Picked color", "" + Integer.toHexString(color));
 			for (Country country: countries) {
 				if (country.getColor() == color) {
-					//Gdx.app.log("Picked", country + "");
 					return country;
 				}				
 			}	
@@ -138,12 +141,23 @@ public class Map {
 		return null;
 	}
 
-	public void draw (Batch batch) {
-		mapSprite.draw(batch);
+	public void draw (SpriteBatch batch) {
+		mapSprite.draw(batch);	
+	}
+	
+	public void drawCircle (ShapeRenderer shape) {
+//		Country alaska = countries.get(0);
+//		shape.setColor(alaska.getOwner().getColor());
+//		shape.circle(alaska.getX(), alaska.getY(), 15);	
+	}
+	
+	public void drawNoUnits(SpriteBatch batch, BitmapFont font) {
+		Country alaska = countries.get(0);
+		font.draw(batch, alaska.getUnits() + "", alaska.getX() - font.getSpaceWidth() / 2,
+				alaska.getY() + font.getCapHeight() / 2);
 	}
 
 	public	ArrayList<Continent> getContinents() {
-		// TODO Auto-generated method stub
 		return continents;
 	}
 	

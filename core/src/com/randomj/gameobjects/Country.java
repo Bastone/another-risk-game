@@ -10,12 +10,27 @@ public class Country {
 	private int units;
 	private long pattern;
 	private int color;
-	
+	private float x, y;
+
 	public Country(String name, int color, int n) {
 		this.name = name;
-		this.color = color;
-		
+		this.color = color;	
 		pattern = (long) Math.pow(2, n);
+		
+		reset();
+	}
+	
+	public Country(String name, float x, float y, int color, int n) {
+		this.name = name;
+		this.color = color;	
+		pattern = (long) Math.pow(2, n);
+		this.x = x;
+		this.y = y;
+		
+		reset();
+	}
+	
+	public void reset() {
 		units = 0;
 		owner = null;
 	}
@@ -50,6 +65,14 @@ public class Country {
 	
 	public int getColor() {
 		return color;
+	}
+	
+	public float getX() {
+		return x;
+	}
+
+	public float getY() {
+		return y;
 	}
 	
 	public void setBorders(Array<Country> borders) {

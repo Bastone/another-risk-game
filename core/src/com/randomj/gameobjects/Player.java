@@ -1,28 +1,23 @@
 package com.randomj.gameobjects;
 
 import com.badlogic.gdx.graphics.Color;
-import com.randomj.gameobjects.Enums.AIType;
 import com.randomj.gameobjects.Enums.PlayerNo;
 
 public abstract class Player {
 	
 	protected PlayerNo playerNo;
-	protected AIType ai;
 	protected String name;
 	protected Color color;
-	protected int pattern;
-	
-	public Player(PlayerNo playerNo, AIType ai, String name, Color color,
-			int pattern) {
-		this.playerNo = playerNo;
-		this.ai = ai;
-		this.name = name;
-		this.color = color;
-		this.pattern = pattern;
-	}
+	protected long pattern;
+	protected int units;
 
-	public abstract boolean isHuman();
 	public abstract void act();
+	public abstract boolean isHuman();
+	
+	public void reset() {
+		pattern = 0;
+		units = 0;
+	}
 	
 	public PlayerNo getPlayerNo() {
 		return playerNo;
@@ -36,7 +31,17 @@ public abstract class Player {
 		return color;
 	}
 
-	public int getPattern() {
+	public long getPattern() {
 		return pattern;
+	}
+	
+	public void addUnits(int amount) {
+		units += amount;
+	}
+	
+	public void conquer(Country country, int units) {
+		pattern = pattern | country.getPattern();
+		country.setOwner(this);
+		country.addUnits(units);
 	}
 }

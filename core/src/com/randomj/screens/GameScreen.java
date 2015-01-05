@@ -1,5 +1,7 @@
 package com.randomj.screens;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
@@ -7,6 +9,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.randomj.gameobjects.Bulga;
@@ -14,7 +18,9 @@ import com.randomj.gameobjects.Console;
 import com.randomj.gameobjects.Country;
 import com.randomj.gameobjects.GameUpdater;
 import com.randomj.gameobjects.Map;
+import com.randomj.gameobjects.Player;
 import com.randomj.helpers.AssetLoader;
+import com.randomj.helpers.CameraHandler;
 import com.randomj.helpers.MapInputHandler;
 import com.randomj.helpers.UIInputHandler;
 import com.randomj.ui.Button;
@@ -26,9 +32,12 @@ public class GameScreen implements Screen {
 	private Map map;
 	private Button button;
 	private GameUpdater updater;
+	private CameraHandler camHandler;
 	private Console console;
 	private SpriteBatch mapBatch, HUDBatch;
+	private ShapeRenderer shape;
 	private BitmapFont font;
+	private ArrayList<Player> players;
 	
 	//--------------
 	private Bulga bulga;
@@ -37,30 +46,37 @@ public class GameScreen implements Screen {
 	private boolean dropTheBulgarang;
 	//------------
 	
-	public GameScreen() {
+	public GameScreen(ArrayList<Player> players) {
+		
+		this.players = players;
 		
 		screenWidth = Gdx.graphics.getWidth();
 		screenHeight = Gdx.graphics.getHeight();	
-		
-		font = new BitmapFont();
 		
 		map = new Map();
 		gameWidth = map.getWidth();
 		gameHeight = map.getHeight();
 		
+		font = new BitmapFont();
+		
 		mapCamera = new OrthographicCamera();
 		mapCamera.setToOrtho(false, gameWidth, gameHeight);
+		camHandler = new CameraHandler(mapCamera, gameWidth, gameHeight);
 		
 		HUDCamera = new OrthographicCamera();
 		HUDCamera.setToOrtho(false, screenWidth, screenHeight);
 		
 		mapBatch = new SpriteBatch();		
-		HUDBatch = new SpriteBatch();
+		HUDBatch = new SpriteBatch();		
+		mapBatch.setProjectionMatrix(mapCamera.combined);
 		HUDBatch.setProjectionMatrix(HUDCamera.combined);
 		
-		updater = new GameUpdater(map);
+		shape = new ShapeRenderer();
+		shape.setProjectionMatrix(mapCamera.combined);
 		
 		console = new Console(AssetLoader.console, font, screenWidth);
+		updater = new GameUpdater(map, players, console);
+			
 		button = new Button(AssetLoader.button, font, console.getX() + console.getWidth() + 20, 20,
 				screenWidth - (console.getX() + console.getWidth()) - 40, console.getHeight() - 40);
 		
@@ -72,24 +88,35 @@ public class GameScreen implements Screen {
 		
 		InputMultiplexer multiplexer = new InputMultiplexer();
 		multiplexer.addProcessor(new UIInputHandler(this, dropBulga));
-		multiplexer.addProcessor(new MapInputHandler(this));
+		multiplexer.addProcessor(new MapInputHandler(camHandler, updater));
 		Gdx.input.setInputProcessor(multiplexer);
 	}
 
 	@Override
 	public void render(float delta) {
+	    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		mapBatch.setProjectionMatrix(mapCamera.combined);
-		
-	    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	    
-	    mapBatch.begin();    
+	    mapBatch.begin();
 	    map.draw(mapBatch);	    
 	    mapBatch.end();
 	    
+	    shape.setProjectionMatrix(mapCamera.combined);
+	    shape.begin(ShapeType.Filled);
+	    map.drawCircle(shape);
+	    shape.end(); 
+	    
+	    mapBatch.begin();
+	    map.drawNoUnits(mapBatch, font);	    
+	    mapBatch.end();
+	    
+
+
+	    
 	    HUDBatch.begin();
 
-	    // It's raining Bulga, halleluja ------------------------------------------------------------   
+	    // It's raining Bulga, halleluja! -----------------------------------------------------------   
 	    dropBulga.draw(HUDBatch);
 	    if (dropTheBulgarang) {
 	    	beginApocalypse(delta);
@@ -137,42 +164,7 @@ public class GameScreen implements Screen {
 		
 	}
 	
-	public void checkCameraBorders() {
-		mapCamera.zoom = MathUtils.clamp(mapCamera.zoom, 0.5f, gameWidth / mapCamera.viewportWidth);
-		
-		float effectiveViewportWidth = mapCamera.viewportWidth * mapCamera.zoom;
-		float effectiveViewportHeight = mapCamera.viewportHeight * mapCamera.zoom;
-
-		mapCamera.position.x = MathUtils.clamp(mapCamera.position.x, effectiveViewportWidth / 2f, gameWidth - effectiveViewportWidth / 2f);
-		mapCamera.position.y = MathUtils.clamp(mapCamera.position.y, effectiveViewportHeight / 2f, gameHeight - effectiveViewportHeight / 2f);
-	}
-	
-	public void pickCountry(float x, float y) {
-		Vector3 pick = mapCamera.getPickRay(x, y).origin;
-		console.log(pick.x + " " + pick.y);
-		Country picked = map.pickCountry(pick.x, gameHeight - pick.y);
-		if (picked != null)
-			console.log(picked.getName());
-	}
-	
-	public void translateCamera(float deltaX, float deltaY) {
-		mapCamera.translate(deltaX, deltaY);
-		checkCameraBorders();
-		mapCamera.update();
-	}
-
-	public void zoomCamera() {
-		mapCamera.zoom -= 0.1f;
-		checkCameraBorders();
-		mapCamera.update();
-	}
-	
-	public void unZoomCamera() {
-		mapCamera.zoom += 0.1f;
-		checkCameraBorders();
-		mapCamera.update();
-	}
-	
+	//----------------------------------------------
 	public void beginApocalypse(float delta) {
     	timelapse += delta;
     	if (timelapse > 1) {
@@ -207,6 +199,8 @@ public class GameScreen implements Screen {
 			console.log("HE'S COMING");
 		}
 	}
+	
+	//-----------------------------------------------
 	
 	public Map getMap() {
 		return map;
