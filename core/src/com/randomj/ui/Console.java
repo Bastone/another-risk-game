@@ -1,4 +1,4 @@
-package com.randomj.gameobjects;
+package com.randomj.ui;
 
 import java.util.LinkedList;
 
@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Console {
+public class Console { // 'console' di gioco, ci si buttano dei messaggi utili a schermo
 	
 	private Sprite sprite;
 	private LinkedList<String> log;
@@ -26,7 +26,7 @@ public class Console {
 		span = 20;
 	}
 	
-	public void log(String string) {
+	public void log(String string) { //la lista contiene solo le ultime 3 stringhe
 		if (log.size() == 3) {
 			log.removeLast();
 		}

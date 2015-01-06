@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 
-public class CameraHandler {
+public class CameraHandler { // gestisce la 'telecamera' della mappa
 
 	private OrthographicCamera cam;
 	private float width, height;
@@ -15,7 +15,7 @@ public class CameraHandler {
 		this.height = height;
 	}
 	
-	public void checkCameraBorders() {
+	public void checkCameraBorders() { //controlla che non esca dai bordi
 		cam.zoom = MathUtils.clamp(cam.zoom, 0.5f, width / cam.viewportWidth);
 		
 		float effectiveViewportWidth = cam.viewportWidth * cam.zoom;
@@ -25,7 +25,7 @@ public class CameraHandler {
 		cam.position.y = MathUtils.clamp(cam.position.y, effectiveViewportHeight / 2f, height - effectiveViewportHeight / 2f);
 	}
 	
-	public void translateCamera(float deltaX, float deltaY) {
+	public void translateCamera(float deltaX, float deltaY) { 
 		cam.translate(deltaX, deltaY);
 		checkCameraBorders();
 		cam.update();
@@ -43,7 +43,7 @@ public class CameraHandler {
 		cam.update();
 	}
 	
-	public Vector3 pick(float x, float y) {
+	public Vector3 pick(float x, float y) { //prende le coordinate reali (a schermo) e ritorna le coordinate virtuali (della mappa)
 		Vector3 pick = cam.getPickRay(x, y).origin;
 		pick.y = height - pick.y;
 		return pick;

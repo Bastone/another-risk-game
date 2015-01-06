@@ -1,17 +1,23 @@
 package com.randomj.gameobjects;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 import com.randomj.gameobjects.Enums.GameState;
-import com.randomj.gameobjects.Enums.TurnPhase;
 import com.randomj.turn.Distribution;
 import com.randomj.turn.Turn;
+import com.randomj.ui.Console;
 
-public class GameUpdater {
+public class GameUpdater { 
+	//e qua inizia il casino: questa classe gestisce il vero e proprio gioco, e devo ancora decidere come
+	
+	//di base, la mia intenzione è fare una classe Turn astratta che può essere distribution, reinforcement,
+	//fortify, attack ecc.. che sarebbero le fasi del turno, e, in tutto questo, GameUpdater deve solo 
+	//passare l'input a Turn, e turn se lo gestisce in base alla fase del turno in cui è... ma chi è che gioca?
+	//siamo offline, online, più giocatori su un unico schermo? solo uno contro computer? in base a questo
+	//cambiano tante cose
 
 	private Map map;
 	private GameState state;
@@ -62,9 +68,15 @@ public class GameUpdater {
 		if (picked != null) {
 			Gdx.app.log("Picked", picked.getName() + "(" + pick.x + "," + pick.y + ") with " +
 					picked.getUnits() + " units");
+			Gdx.app.log("Country pattern", Long.toBinaryString(picked.getPattern())  + "");
+			Gdx.app.log("No. borders", picked.getBorders().size() + "");
+			for (Country country: picked.getBorders() )
+				Gdx.app.log("Borders", country.getName());
+				
 			console.log(picked.getName() + "(" + pick.x + "," + pick.y + ") with " +
 					picked.getUnits() + " units");
-			turn.onPick(picked);
+			
+			//turn.onPick(picked);
 			
 //			switch (phase) {
 //			case DISTRIBUTION:

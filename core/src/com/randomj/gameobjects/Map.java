@@ -121,6 +121,347 @@ public class Map {
 			pattern = pattern | countries.get(i).getPattern();
 		continents.add(new Continent("Australia", 2, pattern));
 		
+		//BORDERS	
+		ArrayList<Country> borders = new ArrayList<Country>(); 
+		
+		//ALASKA
+		borders.add(countries.get(5));
+		borders.add(countries.get(31));
+		borders.add(countries.get(1));
+		countries.get(0).setBorders(borders);
+		borders = new ArrayList<Country>(); 
+
+		//ALBERTA
+		borders.add(countries.get(6));
+		borders.add(countries.get(5));
+		borders.add(countries.get(0));
+		borders.add(countries.get(8));
+		countries.get(1).setBorders(borders);
+		borders = new ArrayList<Country>(); 
+
+		//CENTRAL AMERICA
+		borders.add(countries.get(8));
+		borders.add(countries.get(12));
+		borders.add(countries.get(3));
+		countries.get(2).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//EASTERN UNITED STATES
+		borders.add(countries.get(7));
+		borders.add(countries.get(8));
+		borders.add(countries.get(6));
+		borders.add(countries.get(2));
+		countries.get(3).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//GREENLAND
+		borders.add(countries.get(5));
+		borders.add(countries.get(6));
+		borders.add(countries.get(7));
+		borders.add(countries.get(14));
+		countries.get(4).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//NORTHWEST TERRITORY
+		borders.add(countries.get(0));
+		borders.add(countries.get(1));
+		borders.add(countries.get(6));
+		borders.add(countries.get(4));
+		countries.get(5).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//ONTARIO
+		borders.add(countries.get(1));
+		borders.add(countries.get(5));
+		borders.add(countries.get(3));
+		borders.add(countries.get(7));
+		borders.add(countries.get(8));
+		borders.add(countries.get(4));
+		countries.get(6).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//QUEBEC
+		borders.add(countries.get(6));
+		borders.add(countries.get(3));
+		borders.add(countries.get(4));
+		countries.get(7).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+
+		//WESTERN UNITED STATES
+		borders.add(countries.get(1));
+		borders.add(countries.get(6));
+		borders.add(countries.get(3));
+		borders.add(countries.get(2));
+		countries.get(8).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//ARGENTINA
+		borders.add(countries.get(10));
+		borders.add(countries.get(11));
+		countries.get(9).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//BRAZIL	
+		borders.add(countries.get(9));
+		borders.add(countries.get(11));
+		borders.add(countries.get(12));
+		borders.add(countries.get(24));
+		countries.get(10).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//PERù	
+		borders.add(countries.get(9));
+		borders.add(countries.get(10));
+		borders.add(countries.get(12));
+		countries.get(11).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//VENEZUELA	
+		borders.add(countries.get(2));
+		borders.add(countries.get(11));
+		borders.add(countries.get(10));
+		countries.get(12).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//GREAT BRITAIN
+		borders.add(countries.get(14));
+		borders.add(countries.get(19));
+		borders.add(countries.get(15));
+		borders.add(countries.get(16));
+		countries.get(13).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//ICELAND
+		borders.add(countries.get(13));
+		borders.add(countries.get(4));
+		borders.add(countries.get(16));
+		countries.get(14).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+
+		//NORTHERN EUROPE
+		borders.add(countries.get(19));
+		borders.add(countries.get(13));
+		borders.add(countries.get(17));
+		borders.add(countries.get(16));
+		borders.add(countries.get(18));
+		countries.get(15).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+
+		//SCANDINAVIA
+		borders.add(countries.get(14));
+		borders.add(countries.get(13));
+		borders.add(countries.get(15));
+		borders.add(countries.get(18));
+		countries.get(16).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//SOUTHERN EUROPE
+		borders.add(countries.get(19));
+		borders.add(countries.get(15));
+		borders.add(countries.get(18));
+		borders.add(countries.get(24));
+		borders.add(countries.get(22));
+		borders.add(countries.get(32));
+		countries.get(17).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//UKRAINE
+		borders.add(countries.get(15));
+		borders.add(countries.get(16));
+		borders.add(countries.get(17));
+		borders.add(countries.get(32));
+		borders.add(countries.get(26));
+		borders.add(countries.get(36));
+		countries.get(18).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//WESTERN EUROPE
+		borders.add(countries.get(13));
+		borders.add(countries.get(17));
+		borders.add(countries.get(15));
+		borders.add(countries.get(24));
+		countries.get(19).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//CONGO
+		borders.add(countries.get(21));
+		borders.add(countries.get(25));
+		borders.add(countries.get(24));
+		countries.get(20).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//EAST AFRICA
+		borders.add(countries.get(22));
+		borders.add(countries.get(24));
+		borders.add(countries.get(20));
+		borders.add(countries.get(23));
+		borders.add(countries.get(25));
+		borders.add(countries.get(32));
+		countries.get(21).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//EGYPT
+		borders.add(countries.get(24));
+		borders.add(countries.get(21));
+		borders.add(countries.get(32));
+		borders.add(countries.get(17));
+		countries.get(22).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//MADAGASCAR
+		borders.add(countries.get(25));
+		borders.add(countries.get(21));
+		countries.get(23).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//NORTH AFRICA
+		borders.add(countries.get(10));
+		borders.add(countries.get(19));
+		borders.add(countries.get(22));
+		borders.add(countries.get(21));
+		borders.add(countries.get(20));
+		borders.add(countries.get(17));
+		countries.get(24).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//SOUTH AFRICA
+		borders.add(countries.get(20));
+		borders.add(countries.get(21));
+		borders.add(countries.get(23));
+		countries.get(25).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//AFGHANISTAN
+		borders.add(countries.get(32));
+		borders.add(countries.get(28));
+		borders.add(countries.get(27));
+		borders.add(countries.get(36));
+		borders.add(countries.get(18));
+		countries.get(26).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//CHINA
+		borders.add(countries.get(28));
+		borders.add(countries.get(26));
+		borders.add(countries.get(34));
+		borders.add(countries.get(33));
+		borders.add(countries.get(35));
+		borders.add(countries.get(36));
+		countries.get(27).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//INDIA
+		borders.add(countries.get(32));
+		borders.add(countries.get(26));
+		borders.add(countries.get(27));
+		borders.add(countries.get(34));
+		countries.get(28).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//IRKUTSK
+		borders.add(countries.get(35));
+		borders.add(countries.get(33));
+		borders.add(countries.get(37));
+		borders.add(countries.get(31));
+		countries.get(29).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//JAPAN
+		borders.add(countries.get(33));
+		borders.add(countries.get(31));
+		countries.get(30).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+
+		//KAMCHATKA
+		borders.add(countries.get(37));
+		borders.add(countries.get(29));
+		borders.add(countries.get(33));
+		borders.add(countries.get(30));
+		borders.add(countries.get(0));
+		countries.get(31).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//MIDDLE EAST
+		borders.add(countries.get(26));
+		borders.add(countries.get(28));
+		borders.add(countries.get(21));
+		borders.add(countries.get(22));
+		borders.add(countries.get(17));
+		borders.add(countries.get(18));
+		countries.get(32).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//MONGOLIA
+		borders.add(countries.get(27));
+		borders.add(countries.get(35));
+		borders.add(countries.get(29));
+		borders.add(countries.get(31));
+		borders.add(countries.get(30));
+		countries.get(33).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//SIAM
+		borders.add(countries.get(28));
+		borders.add(countries.get(27));
+		borders.add(countries.get(39));
+		countries.get(34).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//SIBERIA
+		borders.add(countries.get(36));
+		borders.add(countries.get(37));
+		borders.add(countries.get(29));
+		borders.add(countries.get(33));
+		borders.add(countries.get(27));
+		countries.get(35).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//URAL
+		borders.add(countries.get(35));
+		borders.add(countries.get(26));
+		borders.add(countries.get(27));
+		borders.add(countries.get(18));
+		countries.get(36).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//YAKUTSK
+		borders.add(countries.get(35));
+		borders.add(countries.get(29));
+		borders.add(countries.get(31));
+		countries.get(37).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//EASTERN AUSTRALIA
+		borders.add(countries.get(41));
+		borders.add(countries.get(40));
+		countries.get(38).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//INDONESIA
+		borders.add(countries.get(41));
+		borders.add(countries.get(40));
+		borders.add(countries.get(34));
+		countries.get(39).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//NEW GUINEA
+		borders.add(countries.get(39));
+		borders.add(countries.get(38));
+		borders.add(countries.get(41));
+		countries.get(40).setBorders(borders);
+		borders = new ArrayList<Country>();
+
+		//WESTERN AUSTRALIA
+		borders.add(countries.get(39));
+		borders.add(countries.get(38));
+		borders.add(countries.get(40));
+		countries.get(41).setBorders(borders);
+		borders = new ArrayList<Country>();
+		
 	}
 	
 	public void reset() {

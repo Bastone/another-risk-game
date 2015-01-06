@@ -4,8 +4,9 @@ import com.badlogic.gdx.InputProcessor;
 import com.randomj.screens.GameScreen;
 import com.randomj.ui.Button;
 
-public class UIInputHandler implements InputProcessor {
-
+public class UIInputHandler implements InputProcessor { 
+	//gestisce l'input dell'interfaccia utente, che per ora è solo... bulga
+	
 	private GameScreen game;
 	private Button dropBulga;
 	

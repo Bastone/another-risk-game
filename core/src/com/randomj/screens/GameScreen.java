@@ -14,7 +14,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.randomj.gameobjects.Bulga;
-import com.randomj.gameobjects.Console;
 import com.randomj.gameobjects.Country;
 import com.randomj.gameobjects.GameUpdater;
 import com.randomj.gameobjects.Map;
@@ -23,11 +22,14 @@ import com.randomj.helpers.AssetLoader;
 import com.randomj.helpers.CameraHandler;
 import com.randomj.helpers.MapInputHandler;
 import com.randomj.helpers.UIInputHandler;
+import com.randomj.risk.Risk;
 import com.randomj.ui.Button;
+import com.randomj.ui.Console;
 
-public class GameScreen implements Screen {
+public class GameScreen implements Screen { // da libgdx, rappresenta una schermata
 
 	private float gameWidth, gameHeight, screenWidth, screenHeight;
+	private Risk risk;
 	private OrthographicCamera mapCamera, HUDCamera;
 	private Map map;
 	private Button button;
@@ -46,39 +48,41 @@ public class GameScreen implements Screen {
 	private boolean dropTheBulgarang;
 	//------------
 	
-	public GameScreen(ArrayList<Player> players) {
+	public GameScreen(Risk risk, ArrayList<Player> players) {
 		
+		this.risk = risk; // se vorrò cambiare schermata, mi servirà risk.setScreen()
 		this.players = players;
 		
-		screenWidth = Gdx.graphics.getWidth();
+		screenWidth = Gdx.graphics.getWidth();  // dimensioni dello schermo (reali)
 		screenHeight = Gdx.graphics.getHeight();	
 		
-		map = new Map();
-		gameWidth = map.getWidth();
+		map = new Map(); // vedi Map.java
+		gameWidth = map.getWidth();  // dimensioni dello schermo (virtuali), le imposto come le dimensioni dell'immagine della mappa
 		gameHeight = map.getHeight();
 		
-		font = new BitmapFont();
+		font = new BitmapFont(); // per scrivere
 		
-		mapCamera = new OrthographicCamera();
-		mapCamera.setToOrtho(false, gameWidth, gameHeight);
-		camHandler = new CameraHandler(mapCamera, gameWidth, gameHeight);
+		mapCamera = new OrthographicCamera(); // da libgdx, non è altro che una 'telecamera' o 'visuale'
+		mapCamera.setToOrtho(false, gameWidth, gameHeight); // questa 'telecamera' ora ragiona con le coordinate virtuali, non quelle reali (e con la y verso l'alto - origine in basso a sinistra)
+		camHandler = new CameraHandler(mapCamera, gameWidth, gameHeight); // vedi CameraHandler.java
 		
-		HUDCamera = new OrthographicCamera();
-		HUDCamera.setToOrtho(false, screenWidth, screenHeight);
+		HUDCamera = new OrthographicCamera(); // questa servirà per disegnare l'interfaccia utente, che è 'fissa' (y sempre in alto)
+		HUDCamera.setToOrtho(false, screenWidth, screenHeight); // vanno bene le coordinate dello schermo reale
 		
-		mapBatch = new SpriteBatch();		
-		HUDBatch = new SpriteBatch();		
-		mapBatch.setProjectionMatrix(mapCamera.combined);
+		mapBatch = new SpriteBatch();	// da libgdx, servono per disegnare gli sprite (o texture - le immagini)
+		HUDBatch = new SpriteBatch();	
+		mapBatch.setProjectionMatrix(mapCamera.combined); //Ognuno disegna seguendo la propria 'telecamera'
 		HUDBatch.setProjectionMatrix(HUDCamera.combined);
 		
-		shape = new ShapeRenderer();
+		shape = new ShapeRenderer();	// da libgdx, per disegnare delle forme geometriche
 		shape.setProjectionMatrix(mapCamera.combined);
 		
-		console = new Console(AssetLoader.console, font, screenWidth);
-		updater = new GameUpdater(map, players, console);
+		console = new Console(AssetLoader.console, font, screenWidth); // vedi Console.java
+		updater = new GameUpdater(map, players, console); // vedi GameUpdater.java
 			
 		button = new Button(AssetLoader.button, font, console.getX() + console.getWidth() + 20, 20,
 				screenWidth - (console.getX() + console.getWidth()) - 40, console.getHeight() - 40);
+		// vedi Button.java
 		
 		//-------------------------------------------------------------------------------------------
 		bulga = new Bulga(AssetLoader.bulga, screenHeight, screenWidth);
@@ -86,43 +90,44 @@ public class GameScreen implements Screen {
 		dropTheBulgarang = false;
 		//-------------------------------------------------------------------------------------------
 		
-		InputMultiplexer multiplexer = new InputMultiplexer();
-		multiplexer.addProcessor(new UIInputHandler(this, dropBulga));
-		multiplexer.addProcessor(new MapInputHandler(camHandler, updater));
-		Gdx.input.setInputProcessor(multiplexer);
+		InputMultiplexer multiplexer = new InputMultiplexer(); // da libgdx, serve a dividere e dare priorità all'input:
+		multiplexer.addProcessor(new UIInputHandler(this, dropBulga)); // prima l'interfaccia utente (vedi UIInputHandler.java)
+		multiplexer.addProcessor(new MapInputHandler(camHandler, updater)); // poi la mappa (vedi MapInputHandler.java)
+		Gdx.input.setInputProcessor(multiplexer); 
 	}
 
+	//questa funzione si attiva ad ogni fotogramma, e delta sono i secondi passati dall'ultimo fotogramma: infatti  1/delta = FPS! magimagia!	
+	//notare che ho fatto in modo che ogni oggetto si 'disegni da solo' passandogli il batch
 	@Override
 	public void render(float delta) {
-	    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+	    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); //pulisce lo schermo
 		
-		mapBatch.setProjectionMatrix(mapCamera.combined);
+		mapBatch.setProjectionMatrix(mapCamera.combined); //la telecamera della mappa potrebbe cambiare, quindi aggiorno il batch
 	    
-	    mapBatch.begin();
+		//disegno la mappa
+	    mapBatch.begin(); 
 	    map.draw(mapBatch);	    
 	    mapBatch.end();
 	    
-	    shape.setProjectionMatrix(mapCamera.combined);
-	    shape.begin(ShapeType.Filled);
-	    map.drawCircle(shape);
-	    shape.end(); 
+//	    shape.setProjectionMatrix(mapCamera.combined);
+//	    shape.begin(ShapeType.Filled);
+//	    map.drawCircle(shape);
+//	    shape.end(); 
+//	    
+//	    mapBatch.begin();
+//	    map.drawNoUnits(mapBatch, font);	    
+//	    mapBatch.end();
 	    
-	    mapBatch.begin();
-	    map.drawNoUnits(mapBatch, font);	    
-	    mapBatch.end();
 	    
-
-
-	    
+	    //disegno l' HUD a schermo
 	    HUDBatch.begin();
 
-	    // It's raining Bulga, halleluja! -----------------------------------------------------------   
+	    // Bulga button ----------------------------------------------------------------------------- 
 	    dropBulga.draw(HUDBatch);
 	    if (dropTheBulgarang) {
 	    	beginApocalypse(delta);
 	    }
 	    //-------------------------------------------------------------------------------------------
-	    
 	    
 	    console.draw(HUDBatch);
 	    button.draw(HUDBatch);

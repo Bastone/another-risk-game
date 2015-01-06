@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Button {
+public class Button { //bottone generico, è fatto un po' alla cazzo
 	
 	private Sprite sprite;
 	private BitmapFont font;

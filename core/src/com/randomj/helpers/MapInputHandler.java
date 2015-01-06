@@ -5,7 +5,9 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.randomj.gameobjects.GameUpdater;
 
-public class MapInputHandler extends GestureHandler implements InputProcessor{
+public class MapInputHandler extends GestureHandler implements InputProcessor { 
+	//gestisce l'input della mappa
+	//grazie a GestureHandler prende anche i gesti
 
 	private boolean holdMouse;
 	private int startX, startY;
@@ -45,6 +47,7 @@ public class MapInputHandler extends GestureHandler implements InputProcessor{
 		return false;
 	}
 
+	//ho dovuto fare dei casini per il trascinamento, ma fidatevi, funziona
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		

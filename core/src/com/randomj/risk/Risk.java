@@ -10,21 +10,23 @@ import com.randomj.gameobjects.Player;
 import com.randomj.helpers.AssetLoader;
 import com.randomj.screens.GameScreen;
 
-public class Risk extends Game {
+public class Risk extends Game { // superclasse Game di libgdx, si può vedere come il "main"
 
 	@Override
 	public void create() {
-		AssetLoader.load();
-		ArrayList<Player> players = new ArrayList<Player>();
+		AssetLoader.load(); // carica le risorse (vedi AssetLoader.java)
+		
+		ArrayList<Player> players = new ArrayList<Player>(); // Lista di giocatori, ne faccio 2 di prova
 		players.add(new Human(PlayerNo.PLAYER_1, "Catalbertolasio", Color.GREEN));
 		players.add(new Human(PlayerNo.PLAYER_2, "Gertrudelio", Color.RED));
-		setScreen(new GameScreen(players));
+		
+		setScreen(new GameScreen(this, players)); // gli passo anche "this", ovvero questa classe (Risk)
 	}
 
 	@Override
 	public void dispose() {
 		super.dispose();
-		AssetLoader.dispose();
+		AssetLoader.dispose(); // pulisce da tutte le risorse
 	}
 
 }

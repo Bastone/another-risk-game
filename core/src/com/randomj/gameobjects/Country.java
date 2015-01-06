@@ -1,12 +1,12 @@
 package com.randomj.gameobjects;
 
-import com.badlogic.gdx.utils.Array;
+import java.util.ArrayList;
 
 public class Country {
 	
 	private String name;
 	private Player owner;
-	private Array<Country> borders;
+	private ArrayList<Country> borders;
 	private int units;
 	private long pattern;
 	private int color;
@@ -75,11 +75,11 @@ public class Country {
 		return y;
 	}
 	
-	public void setBorders(Array<Country> borders) {
+	public void setBorders(ArrayList<Country> borders) {
 		this.borders = borders;
 	}
 
-	public Array<Country> getBorders() {
+	public ArrayList<Country> getBorders() {
 		return borders;
 	}
 	
